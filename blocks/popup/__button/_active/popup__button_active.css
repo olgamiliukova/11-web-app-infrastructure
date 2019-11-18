@@ -1,0 +1,4 @@
+.popup__button.popup__button_active {
+    background-color: #000;
+    color: #fff;
+}

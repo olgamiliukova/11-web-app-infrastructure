@@ -1,0 +1,7 @@
+.popup__image-bg {
+    max-width: 80vw;
+    max-height: 80vh;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}

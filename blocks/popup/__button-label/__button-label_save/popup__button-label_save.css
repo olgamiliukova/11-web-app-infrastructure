@@ -1,0 +1,7 @@
+.button .popup__button-label_save {
+    display: inline;
+}
+
+.button.load .popup__button-label_save {
+    display: none;
+}
