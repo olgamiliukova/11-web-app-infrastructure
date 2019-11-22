@@ -1,0 +1,53 @@
+{
+  "name": "11-web-app-infrastructure",
+  "version": "1.0.0",
+  "description": "The package is Yandex Praktikum project which has implementation of moduled javascript web application.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open --watch",
+    "build": "cross-env NODE_ENV=production rimraf dist && webpack --mode production",
+    "deploy": "cross-env NODE_ENV=production gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olgamiliukova/11-web-app-infrastructure.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Olga Miliukova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olgamiliukova/11-web-app-infrastructure/issues"
+  },
+  "homepage": "https://github.com/olgamiliukova/11-web-app-infrastructure#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "autoprefixer": "^9.7.2",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
+    "cssnano": "^4.1.10",
+    "file-loader": "^4.2.0",
+    "gh-pages": "~2.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^6.0.0",
+    "imagemin-pngquant": "^8.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-md5-hash": "^0.0.6"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "core-js": "3.1.4"
+  }
+}
