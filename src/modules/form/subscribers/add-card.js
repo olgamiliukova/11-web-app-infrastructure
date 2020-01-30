@@ -1,37 +1,37 @@
-import FormSubscriber from "./base"
+import FormSubscriber from './base';
 
-export default class AddCardFormSubscriber extends FormSubscriber  {
-    constructor (targetForm, apiClient, cardList, callback) {
-        super(targetForm);
+export default class AddCardFormSubscriber extends FormSubscriber {
+  constructor(targetForm, apiClient, cardList, callback) {
+    super(targetForm);
 
-        this.apiClient = apiClient;
-        this.cardList = cardList;
-        this.callback = callback;
+    this.apiClient = apiClient;
+    this.cardList = cardList;
+    this.callback = callback;
 
-        this.addHandler(this.onSubmit);
-    }
+    this.addHandler(this.onSubmit);
+  }
 
-    onSubmit () {
-        const {formElement} = this.targetForm;
+  onSubmit() {
+    const { formElement } = this.targetForm;
 
-        formElement.addEventListener('submit', (event) => {
-            event.preventDefault();
+    formElement.addEventListener('submit', (event) => {
+      event.preventDefault();
 
-            const buttonElement = formElement.querySelector('.button');
-            
-            buttonElement.classList.add('load');
+      const buttonElement = formElement.querySelector('.button');
 
-            const name = formElement.elements.name.value;
-            const link = formElement.elements.link.value;
+      buttonElement.classList.add('load');
 
-            this.apiClient.addCard({name, link}, (card) => {
-                this.cardList.addCard(card);
-                this.cardList.render();
+      const name = formElement.elements.name.value;
+      const link = formElement.elements.link.value;
 
-                buttonElement.classList.remove('load');
+      this.apiClient.addCard({ name, link }, (card) => {
+        this.cardList.addCard(card);
+        this.cardList.render();
 
-                this.callback.call();
-            });
-        });
-    }
+        buttonElement.classList.remove('load');
+
+        this.callback.call();
+      });
+    });
+  }
 }

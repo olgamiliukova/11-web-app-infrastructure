@@ -1,14 +1,14 @@
-import Form from "../form"
-import Popup from "./base"
+import Form from '../form';
+import Popup from './base';
 
 export default class FormPopup extends Popup {
-    constructor (popupElement, initialize) {
-        super(popupElement, initialize);
+  constructor(popupElement, initialize) {
+    super(popupElement, initialize);
 
-        this.popupForm = new Form(popupElement.querySelector('form'));
-    }
+    this.popupForm = new Form(popupElement.querySelector('form'));
+  }
 
-    close (callback) {
-        super.close(callback ? callback : () => this.popupForm.resetForm());
-    }
+  close(callback) {
+    super.close(callback || (() => this.popupForm.resetForm()));
+  }
 }

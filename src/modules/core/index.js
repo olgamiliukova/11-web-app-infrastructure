@@ -1,4 +1,4 @@
-import ApiClient from "./api-client"
-import Subscriber from "./subscriber"
+import ApiClient from './api-client';
+import Subscriber from './subscriber';
 
-export { ApiClient, Subscriber }
+export { ApiClient, Subscriber };
