@@ -36,7 +36,7 @@ export default class Card {
   getImage() {
     return this.cardElement
       .querySelector('.place-card__image')
-      .style.backgroundImage.replace(/^url\(\\"(.+)\\"\)$/, '$1');
+      .style.backgroundImage.replace(/^url\(["]{0,1}([^")]+)["]{0,1}\)$/, '$1');
   }
 
   like() {

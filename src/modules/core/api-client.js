@@ -2,9 +2,9 @@ export default class ApiClient {
   constructor(options = {}) {
     this.options = {
       baseUrl: 'http://localhost',
+      mode: 'cors',
       headers: {
-        Authentication: 'Bearer 108bcb96-44f6-439c-a011-15e7192f69f4',
-        'Content-Type': 'application/json',
+        'content-type': 'application/json',
       },
       method: 'GET',
       ...options,
@@ -12,23 +12,33 @@ export default class ApiClient {
   }
 
   fetch(path, options = {}) {
-    console.log(Object.assign(this.options, options));
     return fetch(
-      `${this.options.baseUrl}/${path}`,
-      Object.assign(this.options, options),
+      `${this.options.baseUrl}/${path}`, {
+        ...this.options,
+        ...options,
+      },
     )
       .then((result) => {
         if (result.ok) {
           return result.json();
         }
 
-        return Promise.reject(
-          new Error(`Error ${result.message}: ${result.status}`),
-        );
+        throw new Error(`Error ${result.message}: ${result.status}`);
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  authorize(email, password, callback = (p) => p) {
+    return this.fetch('signin', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(callback);
   }
 
   getUserInfo(callback = (p) => p) {
@@ -51,6 +61,27 @@ export default class ApiClient {
     return this.fetch('cards', {
       method: 'POST',
       body: JSON.stringify(data),
+    })
+      .then(callback);
+  }
+
+  deleteCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}`, {
+      method: 'DELETE',
+    })
+      .then(callback);
+  }
+
+  likeCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}/likes`, {
+      method: 'PUT',
+    })
+      .then(callback);
+  }
+
+  unlikeCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}/likes`, {
+      method: 'DELETE',
     })
       .then(callback);
   }
