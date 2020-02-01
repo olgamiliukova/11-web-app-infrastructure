@@ -1,5 +1,5 @@
 export default class ApiClient {
-  constructor(options) {
+  constructor(options = {}) {
     this.options = {
       baseUrl: 'http://localhost',
       headers: {
@@ -7,14 +7,15 @@ export default class ApiClient {
         'Content-Type': 'application/json',
       },
       method: 'GET',
-      ...options || {},
+      ...options,
     };
   }
 
-  fetch(path, options) {
+  fetch(path, options = {}) {
+    console.log(Object.assign(this.options, options));
     return fetch(
       `${this.options.baseUrl}/${path}`,
-      Object.assign(this.options, options || {}),
+      Object.assign(this.options, options),
     )
       .then((result) => {
         if (result.ok) {
@@ -30,25 +31,27 @@ export default class ApiClient {
       });
   }
 
-  getUserInfo(callback) {
-    return this.fetch('users/me').then(callback || ((d) => d));
+  getUserInfo(callback = (p) => p) {
+    return this.fetch('users/me').then(callback);
   }
 
-  setUserInfo(data, callback) {
+  setUserInfo(data, callback = (p) => p) {
     return this.fetch('users/me', {
       method: 'PATCH',
       body: JSON.stringify(data),
-    }).then(callback || ((d) => d));
+    })
+      .then(callback);
   }
 
-  getCards(callback) {
-    return this.fetch('cards').then(callback || ((d) => d));
+  getCards(callback = (p) => p) {
+    return this.fetch('cards').then(callback);
   }
 
-  addCard(data, callback) {
+  addCard(data, callback = (p) => p) {
     return this.fetch('cards', {
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(callback || ((d) => d));
+    })
+      .then(callback);
   }
 }
