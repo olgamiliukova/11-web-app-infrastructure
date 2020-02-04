@@ -29,8 +29,17 @@ export default class EditProfileFormSubscriber extends FormSubscriber {
         }
       });
 
-      this.apiClient.setUserInfo(this.profile.userInfo, (userInfo) => {
-        this.profile.userInfo = userInfo;
+      const userInfo = Object.keys(this.profile.userInfo).reduce(
+        (info, fieldName) => (
+          fieldName in formElement.elements
+            ? { ...info, [fieldName]: this.profile.userInfo[fieldName] }
+            : info
+        ),
+        {},
+      );
+
+      this.apiClient.setUserInfo(userInfo, (info) => {
+        this.profile.userInfo = info;
         this.profile.render();
 
         buttonElement.classList.remove('load');
