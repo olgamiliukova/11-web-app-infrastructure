@@ -1,19 +1,19 @@
-import { Subscriber } from "../../core"
+import { Subscriber } from '../../core';
 
 export default class FormSubscriber extends Subscriber {
-    constructor (targetForm) {
-        super();
+  constructor(targetForm) {
+    super();
 
-        this.targetForm = targetForm;
-        this.addHandler(this.onInput);
-    }
+    this.targetForm = targetForm;
+    this.addHandler(this.onInput);
+  }
 
-    onInput () {
-        const {formElement} = this.targetForm;
+  onInput() {
+    const { formElement } = this.targetForm;
 
-        formElement.addEventListener('input', () => {
-            this.targetForm.validateForm();
-            this.targetForm.activateForm();
-        });
-    }
+    formElement.addEventListener('input', () => {
+      this.targetForm.validateForm();
+      this.targetForm.activateForm();
+    });
+  }
 }

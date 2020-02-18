@@ -1,48 +1,88 @@
 export default class ApiClient {
-    constructor (options) {
-        this.options = Object.assign({
-            baseUrl: 'http://localhost',
-            headers: {
-                authorization: '108bcb96-44f6-439c-a011-15e7192f69f4',
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        }, options || {});
-    }
+  constructor(options = {}) {
+    this.options = {
+      baseUrl: 'http://localhost',
+      mode: 'cors',
+      headers: {
+        'content-type': 'application/json',
+      },
+      method: 'GET',
+      ...options,
+    };
+  }
 
-    fetch (path, options) {
-        return fetch(`${this.options.baseUrl}/${path}`, Object.assign(this.options, options || {}))
-            .then((result) => {
-                if (result.ok) {
-                return result.json();
-                }
+  fetch(path, options = {}) {
+    return fetch(
+      `${this.options.baseUrl}/${path}`, {
+        ...this.options,
+        ...options,
+      },
+    )
+      .then((result) => {
+        if (result.ok) {
+          return result.json();
+        }
 
-                return Promise.reject(`Error ${result.status}: ${result.status}`);
-            })
-            .catch((err) => {
-                console.err(err);
-            });
-    }
+        throw new Error(`Error ${result.message}: ${result.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
-    getUserInfo (callback) {
-        return this.fetch('users/me').then(callback ? callback : data => data);
-    }
+  authorize(email, password, callback = (p) => p) {
+    return this.fetch('signin', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(callback);
+  }
 
-    setUserInfo (data, callback) {
-        return this.fetch('users/me', {
-            method: 'PATCH',
-            body: JSON.stringify(data)
-        }).then(callback ? callback : data => data);
-    }
+  getUserInfo(callback = (p) => p) {
+    return this.fetch('users/me').then(callback);
+  }
 
-    getCards (callback) {
-        return this.fetch('cards').then(callback ? callback : data => data);
-    }
+  setUserInfo(data, callback = (p) => p) {
+    return this.fetch('users/me', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
+      .then(callback);
+  }
 
-    addCard (data, callback) {
-        return this.fetch('cards', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then(callback ? callback : data => data);
-    }
+  getCards(callback = (p) => p) {
+    return this.fetch('cards').then(callback);
+  }
+
+  addCard(data, callback = (p) => p) {
+    return this.fetch('cards', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(callback);
+  }
+
+  deleteCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}`, {
+      method: 'DELETE',
+    })
+      .then(callback);
+  }
+
+  likeCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}/likes`, {
+      method: 'PUT',
+    })
+      .then(callback);
+  }
+
+  unlikeCard(id, callback = (p) => p) {
+    return this.fetch(`cards/${id}/likes`, {
+      method: 'DELETE',
+    })
+      .then(callback);
+  }
 }

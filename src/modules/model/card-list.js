@@ -1,22 +1,22 @@
-import Card from "./card"
+import Card from './card';
 
 export default class CardList {
-    constructor (container, initialize) {
-        this.container = container;
-        this.cards = new Map();
-        
-        initialize && initialize(this);
-    }
+  constructor(container, initialize = () => {}) {
+    this.container = container;
+    this.cards = new Map();
 
-    addCard ({name, link}) {
-        const card = new Card(name, link);
+    initialize(this);
+  }
 
-        this.cards.set(card.cardElement, card);
-    }
+  addCard({ name, link }) {
+    const card = new Card(name, link);
 
-    render () {
-        this.cards.forEach(({cardElement}) => {
-            this.container.appendChild(cardElement)
-        });
-    }
+    this.cards.set(card.cardElement, card);
+  }
+
+  render() {
+    this.cards.forEach(({ cardElement }) => {
+      this.container.appendChild(cardElement);
+    });
+  }
 }
